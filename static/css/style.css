@@ -7,10 +7,10 @@ p {margin: 0;}
 /* 布局 - 头部 */
 /* 头部 - 消息提示 */
 .g-head .m-tip {position: relative;font-size: 12px;line-height: 36px;color: #333333;background-color: #f3f3f3;}
-.m-tip p span {margin-left: 207px;}
-.m-tip p a {margin-left: 12px;text-decoration: none;color: #21a557;}
+.m-tip p{margin-left: 207px;}
+.m-tip p a {display:inline-block;margin-left: 12px;text-decoration: none;color: #21a557;}
 .m-tip div {position: absolute;top: 0;right: 207px;cursor: pointer;}
-.m-tip div span {margin-left: 6px;}
+.m-tip div span {display:inline-block;margin-left: 6px;}
 /* 头部 - 标题、导航、介绍 */
 .m-head {height: 89px;}
 .m-head div {float: left;}
