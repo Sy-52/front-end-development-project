@@ -2,7 +2,7 @@
 function addEvent(ele,type,fn){
 	if(window.addEventListener){
 		ele.addEventListener(type,fn);
-	}else if(document.all){
+	}else if(window.attachEvent){
 		ele.attachEvent('on'+type,fn);
 	}else{
 		ele['on'+type] = fn;
@@ -18,11 +18,15 @@ function getStyle(ele,attr){
 	}
 }
 
-/* cookie设置函数 */
+/* 
+  cookie设置函数 -- setCookie()
+  其实该函数并不完善，仅设置了cookie名、值、过期时间，对于cookie使用的路径、域名并没有提及
+  toUTCString()返回dateObject的字符串表示，不过要先将本地时区变为格林尼治时区
+ */
 function setCookie(name,value,expiredays){
 	var date = new Date();
 	date.setTime(date.getTime()+ expiredays*60000);
-	document.cookie = name + "=" + escape(value) + '; expires=' + date.toGMTString();
+	document.cookie = name + "=" + escape(value) + '; expires=' + date.toUTCString();
 }
 
 /* cookie检测函数 */
@@ -71,9 +75,13 @@ function getElementByClassName(label,className){
 	}
 }
 
-/* 根据选择器名获取css样式表中对应css规则 */
+/* 
+  根据选择器名获取css样式表中指定的css规则
+  经测试，IE8及以上、其余主流浏览器的CSSStyleSheet对象都同时有指向CSSStyleRule对象的cssRules与rules属性；
+  所以此处取消以前写的莫名其妙的兼容。
+ */
 function getStyleSelector(selectorName){
-	var cssRules = document.styleSheets[0].cssRules || document.styleSheets[0].rules;
+	var cssRules = document.styleSheets[0].cssRules;
 	for(var i = 0;i < cssRules.length;i++){
 		if(selectorName == cssRules[i].selectorText){
 			return cssRules[i];
