@@ -74,22 +74,20 @@
 // })();
 
 
-/* 关闭顶部通知条IIFE */
+/* 顶部通知条关闭 */
 (function(){
-	var tip_div = getElementByClassName('div','m-tip');
-	var button_div = tip_div.getElementsByTagName('div')[0];
+	/* 没想到getElementByClassName与getElementsByTagName居然可以连用 */
+	var news_div = getElementByClassName('div','m-tip');
+	var button_div = news_div.getElementsByTagName('div')[0];
 	/* 检测cookie是否设置 */
 	if(/read=true/g.test(document.cookie)){
-		getStyleSelector('.g-head .m-tip').style.display = 'none';
+		news_div.class = 'm-tip-display';
 	}
 	/* 若cookie未设置绑定点击事件 */
 	if(!getCookie('read')){
-		addEvent(button_div,'click',disappear);
-	}
-	/* 事件函数disappear */
-	function disappear(){
-		getStyleSelector('.g-head .m-tip').style.display = 'none';
-		setCookie('read','true',10);
+		addEvent(button_div,'click',function(){
+			disappear('.g-head .m-tip');
+		});
 	}
 })();
 
@@ -352,111 +350,119 @@
 // })();
 
 /* 点击关注 */
-// (function(){
-// 	var noattention_div = getElementByClassName('div','focus');
-// 	addEvent(noattention_div,'click',onclick);
-// 	/* 点击事件函数 */
-// 	function onclick(){
-// 		/* 判断登录cookie是否设置 */
-// 		if(getCookie('loginSuc')){
-// 			getStyleSelector('.m-head .focus').style.display = 'none';
-// 			getStyleSelector('.m-head .attention').style.display = 'block';
-// 		}else{
-// 			getStyleSelector('.g-mask1').style.display = 'block';
-// 		}
-// 	}
-// })();
+(function(){
+	var noattention_div = getElementByClassName('div','focus');
+	addEvent(noattention_div,'click',clickAttentionButton);
+})();
 
 /* 登录弹窗 */
-// (function(){
-// 	var userName = document.getElementsByTagName('input')[0];
-// 	var password = document.getElementsByTagName('input')[1];
-// 	var mask_label = document.getElementsByTagName('label')[0];
-// 	addEvent(userName,'blur',onblur);
-// 	addEvent(password,'blur',onblur);
-// 	addEvent(userName,'focus',onfocus);
-// 	addEvent(password,'focus',onfocus);
-	/* 采用事件委托技术提升性能 */
-	// function onblur(ev){
-	// 	var event = window.event || ev;
-	// 	if(event.target){
-	// 		var target = event.target;
-	// 	}else{
-	// 		target = event.srcElement;
-	// 	}
-	// 	switch(target.id){
-	// 		case 'userName':
-	// 		if(event.target.value == ''){
-	// 			event.target.style.backgroundColor = '#fafafa';
-	// 			event.target.style.color = '#ccc';
-	// 			event.target.value = '账号';
-	// 		}
-	// 		break;
-			/* 密码框失去焦点处理 */
-	// 		case 'password':
-	// 		if(event.target.value == ''){
-	// 			mask_label.style.display = 'block';
-	// 		}
-	// 		break;
-	// 	}
-	// }
-	// function onfocus(ev){
-	// 	var event = window.event || ev;
-	// 	if(event.target){
-	// 		var target = event.target;
-	// 	}else{
-	// 		target = event.srcElement;
-	// 	}
-	// 	switch(target.id){
-	// 		case 'userName':
-	// 		event.target.style.backgroundColor = '#fff';
-	// 		event.target.style.color = '#666';
-	// 		if(event.target.value == '账号'){
-	// 			event.target.value = '';
-	// 		}
-	// 		break;
-	// 		/* 密码框获得焦点处理 */
-	// 		case 'password':
-	// 		event.target.style.backgroundColor = '#fff';
-	// 		event.target.style.color = '#666';
-	// 		mask_label.style.display = 'none';
-	// 		break;
-	// 	}
-	// }
+(function(){
+	var userName = document.getElementsByTagName('input')[0];
+	var password = document.getElementsByTagName('input')[1];
+	var mask_label = document.getElementsByTagName('label')[0];
+	addEvent(userName,'blur',inputBlur);
+	addEvent(password,'blur',inputBlur);
+	addEvent(userName,'focus',inputFocus);
+	addEvent(password,'focus',inputFocus);
 	/* 给登录按钮绑定ajax */
-	// var submit_div = getElementByClassName('div','submit');
-	// var login_div = getElementByClassName('div','g-mask1');
-	// var noattention_div = getElementByClassName('div','focus');
-	// var attention_div = getElementByClassName('div','attention');
-	// addEvent(submit_div,'click',onclick);
-	// function onclick(){
-	// 	ajax('get','http://study.163.com/webDev/login.htm?userName=' + hex_md5(userName.value) + '&password=' + hex_md5(password.value),fn);
-	// 	function fn(data){
-	// 		if (data == 1) {
-				/* 登录成功后调用关注API设置cookie */
-// 				setCookie('loginSuc','true',30);
-// 				ajax('get','http://study.163.com/webDev/attention.htm',setAttention);
-// 				function setAttention(){
-// 					setCookie('followSuc','true',30);
-// 					getStyleSelector('.g-mask1').style.display = 'none';
-// 					getStyleSelector('.m-head .focus').style.display = 'none';
-// 					getStyleSelector('.m-head .attention').style.display = 'block';
-// 				}	
-// 			}else{
-// 				alert('账号/密码错误');
-// 				userName.value = '';
-// 				password.value = '';
-// 				userName.focus();
-// 			}
-// 		}
-// 	}
-// })();
+	var submit_div = getElementByClassName('div','submit');
+	var login_div = getElementByClassName('div','g-mask1');
+	var noattention_div = getElementByClassName('div','focus');
+	var attention_div = getElementByClassName('div','attention');
+	addEvent(submit_div,'click',clickSubmitButton);
+})();
 
-/* 检测登录cookie和关注cookie是否同时存在 */
-// (function(){
-// 	if(getCookie('loginSuc') && getCookie('followSuc')){
-// 		getStyleSelector('.m-head .focus').style.display = 'none';
-// 		getStyleSelector('.m-head .attention').style.display = 'block';
-// 	}
-// })();
+/* 载入页面时loginSuc、followSuc同时存在才能显示"已关注"按钮 */
+(function(){
+	if(getCookie('loginSuc') && getCookie('followSuc')){
+		getStyleSelector('.m-head .focus').style.display = 'none';
+		getStyleSelector('.m-head .attention').style.display = 'block';
+	}
+})();
 
+/* 事件函数 */
+/* disappear */
+function disappear(selectorName){
+	getStyleSelector(selectorName).style.display = 'none';
+	setCookie('read','true',10);
+}
+/* "点击关注按钮"函数 */
+function clickAttentionButton(){
+	/* 判断登录cookie是否设置 */
+	if(getCookie('loginSuc')){
+		getStyleSelector('.m-head .focus').style.display = 'none';
+		getStyleSelector('.m-head .attention').style.display = 'block';
+	}else{
+		getStyleSelector('.g-mask1').style.display = 'block';
+	}
+}
+/* 采用事件委托技术提升性能 */
+function inputBlur(ev){
+	var event = window.event || ev;
+	if(event.target){
+		var target = event.target;
+	}else{
+		target = event.srcElement;
+	}
+	switch(target.id){
+		case 'userName':
+		if(event.target.value == ''){
+			event.target.style.backgroundColor = '#fafafa';
+			event.target.style.color = '#ccc';
+			event.target.value = '账号';
+		}
+		break;
+		/* 密码框失去焦点处理 */
+		case 'password':
+		if(event.target.value == ''){
+			mask_label.style.display = 'block';
+		}
+		break;
+	}
+}
+function inputFocus(ev){
+	var event = window.event || ev;
+	if(event.target){
+		var target = event.target;
+	}else{
+		target = event.srcElement;
+	}
+	switch(target.id){
+		case 'userName':
+		event.target.style.backgroundColor = '#fff';
+		event.target.style.color = '#666';
+		if(event.target.value == '账号'){
+			event.target.value = '';
+		}
+		break;
+		/* 密码框获得焦点处理 */
+		case 'password':
+		event.target.style.backgroundColor = '#fff';
+		event.target.style.color = '#666';
+		mask_label.style.display = 'none';
+		break;
+	}
+}
+function clickSubmitButton(){
+	ajax('get','http://study.163.com/webDev/login.htm?userName=' + hex_md5(userName.value) + '&password=' + hex_md5(password.value),fn);
+	function fn(data){
+		if (data == 1) {
+			/* 登录成功后调用关注API设置cookie */
+			setCookie('loginSuc','true',30);
+			ajax('get','http://study.163.com/webDev/attention.htm',setAttention);
+			function setAttention(data){
+				if(data == 1){
+					setCookie('followSuc','true',30);
+					getStyleSelector('.g-mask1').style.display = 'none';
+					getStyleSelector('.m-head .focus').style.display = 'none';
+					getStyleSelector('.m-head .attention').style.display = 'block';
+			    }else{}
+			}	
+		}else{
+			alert('账号/密码错误');
+			userName.value = '';
+			password.value = '';
+			userName.focus();
+		}
+	}
+}
