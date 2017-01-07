@@ -1,94 +1,68 @@
-/* 轮播图IIFE */ 
-// (function(){
-	/* 获取轮播图片和按钮的DOM对象 */
-	// var banner_ul = document.getElementsByTagName('ul')[0];
-	// var banner_li = banner_ul.getElementsByTagName('li');
-	// var slide_ul = document.getElementsByTagName('ul')[1];
-	// var slide_li = slide_ul.getElementsByTagName('li');
-	/* 给按钮绑定点击事件 */
-	// var image_number = slide_li.length;
-	// for(var i = 0;i < image_number;i++){
-	// 	addEvent(slide_li[i],'click',slideClick);
-	// }
-	/* 按钮事件 - slideClick */
-	// function slideClick(){
-		/* clear函数用于清除前一张选中的图片 */
-	// 	clear();
-	// 	this.className = 'selected';
-	// 	for(i = 0;i < image_number;i++){
-	// 		if(slide_li[i].className == 'selected'){
-	// 			banner_li[i].className = 'selected';
-	// 			fadeIn(banner_li[i],50);
-	// 		}
-	// 	}
-	// }
-	// function clear(){
-	// 	for(i = 0;i < image_number;i++){
-	// 		if(banner_li[i].className == 'selected'){
-	// 			banner_li[i].className = '';
-	// 		}
-	// 		if(slide_li[i].className == 'selected'){
-	// 			slide_li[i].className = '';
-	// 		}
-	// 	}
-	// }
-	/* 图片渐入函数 - fadeIn */
-	// function fadeIn(ele,time){
-	// 	var stepLength = 1/time;
-	// 	var tmpOffset = 0;
-	// 	var IntervalID = setInterval(function(){
-	// 		if(tmpOffset < 1){
-	// 			tmpOffset = tmpOffset + stepLength;
-	// 			getStyleSelector('.m-slide .banner .selected').style.opacity = tmpOffset;
-	// 		}else{
-	// 			getStyleSelector('.m-slide .banner .selected').style.opacity = 1;
-	// 			clearInterval(IntervalID);
-	// 		}
-	// 	},10);
-	// }	
+/* 全局变量 -- 消息通知栏 */
+var tip_div = getElementByClassName('div','m-tip');
+/* 全局变量 -- 关注按钮 */
+var focus_div = getElementByClassName('div','focus');
+var attention_div = getElementByClassName('div','attention disappear');
+/* 全局变量 -- 登录窗口 */
+var mask1_div = getElementByClassName('div','g-mask1 disappear');
+var userName = document.getElementsByTagName('input')[0];
+var password = document.getElementsByTagName('input')[1];
+var mask_label = document.getElementsByTagName('label')[0];
+var submit_div = getElementByClassName('div','submit');
+/* 全局变量 -- 轮播图 */
+var banner_ul = document.getElementsByTagName('ul')[0];
+var banner_li = banner_ul.getElementsByTagName('li');
+var slide_ul = document.getElementsByTagName('ul')[1];
+var slide_li = slide_ul.getElementsByTagName('li');
+var IntervalID;
 
-	/* 绑定鼠标hover事件 */
-	// var IntervalID;
-	// addEvent(banner_ul,'mouseenter',removeAutoPlay);
-	// addEvent(banner_ul,'mouseleave',autoPlay);
-	/* 事件函数 */
-	// function autoPlay(){
-	// 	var i = 1;
-	// 	IntervalID = setInterval(function(){
-	// 		clear();
-	// 		slide_li[i].className = 'selected';
-	// 		banner_li[i].className = 'selected';
-	// 		fadeIn(banner_li[i],50);
-	// 		if(i < 2){
-	// 			i++;
-	// 		}else{ 
-	// 			i = 0;
-	// 		}
-	// 	},5000);
-	// }	
-	// function removeAutoPlay(){
-	// 	clearInterval(IntervalID);
-	// }
-	/* 轮播图自动播放 */
-// 	autoPlay();
-// })();
-
-
-/* 顶部通知条关闭 */
+/* 顶部通知条 */
 (function(){
 	/* 没想到getElementByClassName与getElementsByTagName居然可以连用 */
-	var news_div = getElementByClassName('div','m-tip');
-	var button_div = news_div.getElementsByTagName('div')[0];
+	var button_div = tip_div.getElementsByTagName('div')[0];
 	/* 检测cookie是否设置 */
 	if(/read=true/g.test(document.cookie)){
-		news_div.class = 'm-tip-display';
+		tip_div.className = 'm-tip disappear';
 	}
 	/* 若cookie未设置绑定点击事件 */
 	if(!getCookie('read')){
-		addEvent(button_div,'click',function(){
-			disappear('.g-head .m-tip');
-		});
+		addEvent(button_div,'click',disappear);
 	}
+})();
+
+/* 载入页面时loginSuc、followSuc同时存在才能显示"已关注"按钮 */
+(function(){
+	if(getCookie('loginSuc') && getCookie('followSuc')){
+		focus_div.className = 'focus disappear';
+		attention_div.className = 'attention';
+	}
+})();
+
+/* 点击关注 */
+(function(){
+	addEvent(focus_div,'click',clickFocusButton);
+})();
+
+/* 登录弹窗 */
+(function(){
+	addEvent(userName,'blur',inputBlur);
+	addEvent(userName,'focus',inputFocus);
+	addEvent(password,'blur',inputBlur);
+	addEvent(password,'focus',inputFocus);
+	addEvent(submit_div,'click',clickSubmitButton);
+})();
+
+/* 轮播图 */ 
+(function(){
+	/* 给三个按钮分别绑定点击事件 */
+	for(var i = 0;i < 3;i++){
+		addEvent(slide_li[i],'click',slideClick);
+	}	
+	/* 绑定鼠标hover事件 */
+	addEvent(banner_ul,'mouseenter',removeAutoPlay);
+	addEvent(banner_ul,'mouseleave',autoPlay);
+	/* 轮播图自动播放 */
+	autoPlay();
 })();
 
 /* 点击Tab切换课程、点击页码切换课程 */
@@ -349,54 +323,26 @@
 // 	}
 // })();
 
-/* 点击关注 */
-(function(){
-	var noattention_div = getElementByClassName('div','focus');
-	addEvent(noattention_div,'click',clickAttentionButton);
-})();
-
-/* 登录弹窗 */
-(function(){
-	var userName = document.getElementsByTagName('input')[0];
-	var password = document.getElementsByTagName('input')[1];
-	var mask_label = document.getElementsByTagName('label')[0];
-	addEvent(userName,'blur',inputBlur);
-	addEvent(password,'blur',inputBlur);
-	addEvent(userName,'focus',inputFocus);
-	addEvent(password,'focus',inputFocus);
-	/* 给登录按钮绑定ajax */
-	var submit_div = getElementByClassName('div','submit');
-	var login_div = getElementByClassName('div','g-mask1');
-	var noattention_div = getElementByClassName('div','focus');
-	var attention_div = getElementByClassName('div','attention');
-	addEvent(submit_div,'click',clickSubmitButton);
-})();
-
-/* 载入页面时loginSuc、followSuc同时存在才能显示"已关注"按钮 */
-(function(){
-	if(getCookie('loginSuc') && getCookie('followSuc')){
-		getStyleSelector('.m-head .focus').style.display = 'none';
-		getStyleSelector('.m-head .attention').style.display = 'block';
-	}
-})();
-
-/* 事件函数 */
-/* disappear */
-function disappear(selectorName){
-	getStyleSelector(selectorName).style.display = 'none';
+/* 
+  "通知消息"消失函数 -- disappear 
+   本来想写为可复用的组件函数，但是"通知消息"消失的逻辑必须在该事件函数中执行，所以作罢
+ */
+function disappear(){
+	tip_div.className = 'm-tip disappear';
 	setCookie('read','true',10);
 }
+
 /* "点击关注按钮"函数 */
-function clickAttentionButton(){
-	/* 判断登录cookie是否设置 */
+function clickFocusButton(){
 	if(getCookie('loginSuc')){
-		getStyleSelector('.m-head .focus').style.display = 'none';
-		getStyleSelector('.m-head .attention').style.display = 'block';
+		focus_div.className = 'focus disappear';
+		attention_div.className = 'attention';
 	}else{
-		getStyleSelector('.g-mask1').style.display = 'block';
+		mask1_div.className = 'g-mask1';
 	}
 }
-/* 采用事件委托技术提升性能 */
+
+/* "输入框失去焦点"事件函数 */
 function inputBlur(ev){
 	var event = window.event || ev;
 	if(event.target){
@@ -420,6 +366,8 @@ function inputBlur(ev){
 		break;
 	}
 }
+
+/* "输入框获得焦点"事件函数 */
 function inputFocus(ev){
 	var event = window.event || ev;
 	if(event.target){
@@ -443,26 +391,100 @@ function inputFocus(ev){
 		break;
 	}
 }
+
+/* "点击登录按钮"事件函数 */
 function clickSubmitButton(){
-	ajax('get','http://study.163.com/webDev/login.htm?userName=' + hex_md5(userName.value) + '&password=' + hex_md5(password.value),fn);
-	function fn(data){
-		if (data == 1) {
-			/* 登录成功后调用关注API设置cookie */
-			setCookie('loginSuc','true',30);
-			ajax('get','http://study.163.com/webDev/attention.htm',setAttention);
-			function setAttention(data){
-				if(data == 1){
-					setCookie('followSuc','true',30);
-					getStyleSelector('.g-mask1').style.display = 'none';
-					getStyleSelector('.m-head .focus').style.display = 'none';
-					getStyleSelector('.m-head .attention').style.display = 'block';
-			    }else{}
-			}	
-		}else{
-			alert('账号/密码错误');
-			userName.value = '';
-			password.value = '';
-			userName.focus();
+	ajax('get','http://study.163.com/webDev/login.htm?userName=' + hex_md5(userName.value) + '&password=' + hex_md5(password.value),loginSuc);
+}
+
+/* 登录成功后回调处理函数 */
+function loginSuc(data){
+	if (data == 1) {
+		/* 登录成功后调用关注API设置cookie */
+		setCookie('loginSuc','true',30);
+		ajax('get','http://study.163.com/webDev/attention.htm',setAttention);
+	}else{
+		alert('账号/密码错误');
+		userName.value = '';
+		password.value = '';
+		userName.focus();
+	}
+}
+
+/* 关注成功后回调处理函数 */
+function setAttention(data){
+	if(data == 1){
+		setCookie('followSuc','true',30);
+		focus_div.className = 'focus disappear';
+		attention_div.className = 'attention';
+		mask1_div.className = 'g-mask1 disappear';
+    }
+}	
+
+/* 点击轮播图按钮触发事件 */
+function slideClick(){
+	clear();
+	this.className = 'selected';
+	for(i = 0;i < 3;i++){
+		if(slide_li[i].className == 'selected'){
+			banner_li[i].className = 'selected';
+			fadeIn(banner_li[i],50);
 		}
 	}
+}
+
+/* clear函数用于清除前一张选中的图片 */
+function clear(){
+	var i;
+	for(i = 0;i < 3;i++){
+		if(banner_li[i].className == 'selected'){
+			banner_li[i].className = '';
+		}
+		if(slide_li[i].className == 'selected'){
+			slide_li[i].className = '';
+		}
+	}
+}
+
+/* 图片渐入函数 */
+function fadeIn(ele,time){
+	var stepLength = 1/time;
+	var tmpOffset = 0;
+	var IntervalID = setInterval(function(){
+		if(tmpOffset < 1){
+			tmpOffset = tmpOffset + stepLength;
+			getStyleSelector('.m-slide .banner .selected').style.opacity = tmpOffset;
+		}else{
+			getStyleSelector('.m-slide .banner .selected').style.opacity = 1;
+			clearInterval(IntervalID);
+		}
+	},10);
+}
+
+/* 
+  轮播图自动播放函数 
+  该方法其实不完善，如果鼠标悬停3图并离开后，下一张图刷的是2图而非1图,所以稍作改动
+  JS是单线程语言,"异步任务"要等执行栈中的同步任务执行完毕后才将"task queue"中挂起的异步任务推入执行栈执行。异步任务必须指定回调函数（被主线程挂起来的代码）
+  JS的这种执行任务机制又称为Event Loop
+ */
+function autoPlay(){
+	var nextImg , i;
+	IntervalID = setInterval(function(){
+		for(i = 0;i < 3;i++){
+			/* 查了一下午，结果Bug在这 : == 和 = ！！ */
+			if(slide_li[i].className == 'selected'){
+				nextImg = i + 1;
+				break;
+			}
+		}
+		clear();
+		if(nextImg == 3){nextImg = 0}
+		slide_li[nextImg].className = 'selected';
+		banner_li[nextImg].className = 'selected';
+		fadeIn(banner_li[nextImg],50);
+	},5000);
+}	
+
+function removeAutoPlay(){
+	clearInterval(IntervalID);
 }
