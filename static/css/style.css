@@ -4,10 +4,11 @@ ol,ul {list-style-type: none;margin: 0;padding-left: 0;}
 h3,h5 {margin: 0;}
 p {margin: 0;}
 /* 调用多个布局/模块/元件共用的图；写通用性较高的布局/模块/元件的清除；统一处理的样式 */
+.disappear {display:none;}
+.clear {clear: both;height: 0;}
 /* 布局 - 头部 */
 /* 头部 - 消息提示 */
 .g-head .m-tip {position: relative;font-size: 12px;line-height: 36px;color: #333333;background-color: #f3f3f3;}
-.g-head .m-tip {display:none;}
 .m-tip p{margin-left: 207px;}
 .m-tip p a {display:inline-block;margin-left: 12px;text-decoration: none;color: #21a557;}
 .m-tip div {position: absolute;top: 0;right: 207px;cursor: pointer;}
@@ -25,7 +26,7 @@ p {margin: 0;}
 /* 当时考虑到关注按钮后面可能还会添加文字...想多了 */
 /*.m-head .focus span:last-child {margin-right: 9px;}*/
 .m-head .focus:hover {background-color: #2fb556;}
-.m-head .attention {display: none;line-height: 21px;margin: 31px 14px 37px 31px;background-color: #f8f8f8;font-size: 12px;border: 1px solid #efefef;}
+.m-head .attention {line-height: 21px;margin: 31px 14px 37px 31px;background-color: #f8f8f8;font-size: 12px;border: 1px solid #efefef;}
 .m-head .attention img {margin-left: 6px;margin-right: 5px;}
 .m-head .attention span {color: #333333;}
 .m-head .attention span:nth-child(3) {margin-left: 9px;margin-right: 8px;color: #ccc;}
@@ -42,14 +43,14 @@ p {margin: 0;}
 .m-head .search div {position: absolute;top: 50%;right: -51px;width: 20px;height: 21px;background: url('../image/Magnifying Glass.png?__sprite') no-repeat;transform: translateY(-50%);}
 .m-head .search div:hover {background: url('../image/Magnifying Glass hover.png?__sprite') no-repeat;}
 /* 头部 - 轮播图 */
-/*.m-slide {position: relative;height: 450px;}
+.m-slide {position: relative;height: 450px;}
 .m-slide .banner {position: relative;}
-.m-slide .banner li {position: absolute;opacity: 0;}
+.m-slide .banner li {position: absolute;opacity: 0;font-size:0;}
 .m-slide .banner li img {width: 1616px;}
-.m-slide .banner .selected{z-index: 1;opacity: 1;}
-.m-slide .slide {position: absolute;left: 50%;bottom: 20px;-ms-transform: translateY(-50%);-webkit-transform: translateY(-50%);transform: translateY(-50%);z-index: 2;}
+.m-slide .banner .selected{opacity: 1;}
+.m-slide .slide {position: absolute;left: 50%;transform: translateY(-50%);bottom: 20px;z-index: 2;}
 .m-slide .slide li {float: left;width: 10px;height: 10px;border-radius: 50%;background-color: #ffffff;margin-left: 10px;}
-.m-slide .slide .selected {background-color: #333333;}*/
+.m-slide .slide .selected {background-color: #333333;}
 /* 头部 - 三大课程介绍、导航 */
 /*.g-head .m-nav {height: 295px;padding: 61px 218px 0 212px;-moz-box-sizing: border-box;box-sizing: border-box;}
 .g-head .m-nav li {float: left;}
@@ -147,15 +148,13 @@ p {margin: 0;}
 .g-mask .container video {margin-left: 30px;}
 .g-mask .container div {position: absolute;top: 13px;right: 12px;width: 23px;height: 22px;background-image: url('../image/video-x.png?__sprite');cursor: pointer;}*/
 /* 遮罩、登录框 */
-.g-mask1 {display:none;position: absolute;top: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.8);z-index: 4;}
+.g-mask1 {position: absolute;top: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.8);z-index: 4;}
 .g-mask1 form {position: fixed;left: 50%;top: 50%;transform: translate(-50%, -50%);width: 387px;height: 288px;background-color: #fff;}
 .g-mask1 form p {margin-top: 30px;margin-left: 40px;margin-bottom: 21px;font-size: 16px;color: #444;}
 .g-mask1 form label {position: absolute;top: 135px;left: 41px;padding-left: 9px;width: 293px;line-height: 45px;background-color: #fafafa;color: #cccccc;}
 .g-mask1 form input {margin-left: 40px;padding-left: 9px;width: 293px;height: 43px;font: 15px 'Microsoft Yahei';border: 1px solid #dfdfdf;background-color: #fafafa;color: #cccccc;}
 .g-mask1 form input:nth-child(3) {margin-top: 15px;}
 .g-mask1 form div {margin-top: 30px;margin-left: 40px;padding-left: 9px;width: 293px;line-height: 43px;border: 1px solid #dfdfdf;font-size: 15px;text-align: center;background-color: #2bb14f;color: #ffffff;cursor: pointer;}
-/* 使用率较高的样式剥离出来按需使用，如.clear */
-.clear {clear: both;height: 0;}
 /* 页面响应式布局 
 /*@media screen and (max-width: 1204px) {
   body {width: 1364px;}
@@ -171,4 +170,3 @@ p {margin: 0;}
   .g-body .m-content {width: 714px;}
   .g-body .m-content .content ul {margin-left: -21px;}
 }
-*/
