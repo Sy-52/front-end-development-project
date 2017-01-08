@@ -15,6 +15,13 @@ var banner_li = banner_ul.getElementsByTagName('li');
 var slide_ul = document.getElementsByTagName('ul')[1];
 var slide_li = slide_ul.getElementsByTagName('li');
 var IntervalID;
+/* 课程显示模块 */
+var tab_div = getElementByClassName('div','tab');
+var tabChild_div = tab_div.getElementsByTagName('div');
+var pageNumber_li = document.getElementsByTagName('ol')[0].getElementsByTagName('li');
+var type = 10;
+var courseNum = 20;
+var pageNum = 1;
 
 /* 顶部通知条 */
 (function(){
@@ -65,33 +72,16 @@ var IntervalID;
 	autoPlay();
 })();
 
-/* 点击Tab切换课程、点击页码切换课程 */
-// (function(){
-// 	var tab_div = getElementByClassName('div','tab');
-// 	var tabChild_div = tab_div.getElementsByTagName('div');
-// 	var pageNumber_li = document.getElementsByTagName('ol')[0].getElementsByTagName('li');
-// 	var type = 10;
-// 	var courseNum = 20;
-// 	var pageNum = 1;
+/* 课程 */
+(function(){
 	/* 检测浏览器窗口大小 */
-	// checkWindow();
-	// addEvent(window,'resize',onresize);
-	/* 事件函数 -- 检测浏览器窗口大小 */
-	// function onresize(){
-	// 	checkWindow();
-	// }
-	// function checkWindow(){
-	// 	if(window.innerWidth < 1205){
-	// 		courseNum = 15;
-	// 	}else{
-	// 		courseNum = 20;
-	// 	}
-	// 	ajax('GET','http://study.163.com/webDev/couresByCategory.htm?pageNo=' + pageNum + '&psize=' + courseNum + '&type='+ type,callBack);
-	// }
-	/* 点击Tab切换课程 */
+	checkWindow();
+	addEvent(window,'resize',onresize);	
+	/* 给"产品设计"与"编程语言"按钮绑定点击事件 */
 	// for(i = 0;i < tabChild_div.length;i++){
 	// 	addEvent(tabChild_div[i],'click',clickChange);
 	// }
+	/* 事件 */
 	// function clickChange(){
 	// 	var currentPage;
 		/* 变换页码前先清除之前选择的页码 */
@@ -103,7 +93,7 @@ var IntervalID;
 	// 	this.className = 'selected';
 	// 	for(i = 0;i < tabChild_div.length;i++){
 	// 		if(tabChild_div[i].className == 'selected'){
-	// 			 判断Tab项的内容，返回对应类型课程 
+	// 			  判断Tab项的内容，返回对应类型课程  
 	// 			if(this.innerHTML == '编程语言'){
 	// 				type = 20;
 	// 			}else{
@@ -114,11 +104,11 @@ var IntervalID;
 	// 	ajax('GET','http://study.163.com/webDev/couresByCategory.htm?pageNo=' + pageNumber_li[pageNum].innerHTML + '&psize=' + courseNum + '&type='+ type,callBack);
 	// }
 
-	/* 给所有页码绑定点击事件 */
+	/* 给页码绑定点击事件 */
 	// for(i = 1;i < pageNumber_li.length - 1;i++){
 	// 	addEvent(pageNumber_li[i],'click',selectedEvent);
 	// }
-	/* 事件绑定函数selectedEvent */
+	/* 事件 */
 	// function selectedEvent(){
 	// 	var that = this;
 		/* 获取当前页码 */
@@ -138,110 +128,13 @@ var IntervalID;
 	// 	}
 	// 	getCourseData(that);
 	// }
-
-	/* 课程处理函数 */
-	// function callBack(jsonObj){
-	// 	jsonObj = JSON.parse(jsonObj);
-	// 	var course_ul = getElementByClassName('div','content').getElementsByTagName('ul')[0];
-	// 	var course_li = course_ul.getElementsByTagName('li');
-		/* 删除前面所选页的节点 */
-		// for(i = 0;i < 20;i++){
-		// 	if(course_li.length != 0){
-		// 		course_ul.removeChild(course_li[0]);
-		// 	}else{
-		// 		break;
-		// 	}
-		// }
-		/* 创建课程节点 */
-		// for(i = 0;i < courseNum;i++){
-		// 	var course_li = document.createElement('li');
-			/* 课程图片 */
-			// var courseImage_div = document.createElement('div');
-			// var courseImage_img = document.createElement('img');
-			// courseImage_img.src = jsonObj.list[i].bigPhotoUrl;
-			// courseImage_img.setAttribute('width','223px');
-			// courseImage_img.setAttribute('height','124px');
-			// courseImage_div.appendChild(courseImage_img);
-			/* 课程名 */
-			// var courseTile_h3 = document.createElement('h3');
-			// courseTile_h3.innerHTML = jsonObj.list[i].name;
-			/* 提供者 */
-			// var courseintroduce_span = document.createElement('span');
-			// courseintroduce_span.innerHTML = jsonObj.list[i].provider;
-			/* 人数 */
-			// var coursepeople_div = document.createElement('div');
-			// coursepeople_div.innerHTML = "<img src='static/image/people-count.png'/><span>"+ jsonObj.list[i].learnerCount +"</span>";
-			/* 价格 */
-			// var coursePrice_span = document.createElement('span');
-			// coursePrice_span.innerHTML = '￥' + jsonObj.list[i].price;
-			/* 将节点追加到<li>中 */
-			// course_li.appendChild(courseImage_div);
-			// course_li.appendChild(courseTile_h3);
-			// course_li.appendChild(courseintroduce_span);
-			// course_li.appendChild(coursepeople_div);
-			// course_li.appendChild(coursePrice_span);
-			/* 追加课程详细信息DOM节点 */
-			// var courseDetail_div = document.createElement('div');
-			// courseDetail_div.className = 'courseDetail';
-			/* 课程 -- 摘要 */
-			// var courseAbstract_div = document.createElement('div');
-			// courseAbstract_div.className = 'courseAbstract';
-			/* 摘要 -- 图片容器 */
-			// var courseImg_div = document.createElement('div');
-			/* 图片容器 -- 图片 */
-			// var courseImg_img = document.createElement('img');
-			// courseImg_img.src = jsonObj.list[i].bigPhotoUrl;
-			// courseImg_img.setAttribute('width','223px');
-			// courseImg_img.setAttribute('height','124px');	
-			// courseImg_div.appendChild(courseImg_img);	
-			/* 摘要容器 -- 图片以外部分 */
-			// var courseOther_div = document.createElement('div');
-			/* 图片以外部分 -- 标题 */
-			// var courseOther_h3 = document.createElement('h3');
-			// courseOther_h3.innerHTML = jsonObj.list[i].name;
-			// courseOther_div.appendChild(courseOther_h3);
-			/* 图片以外部分 -- 人数 */
-			// var courseOtherPeople_div = document.createElement('div');
-			// courseOtherPeople_div.innerHTML = "<img src='static/image/people-count.png'/><span>"+ jsonObj.list[i].learnerCount +"</span><span>人在学</span>";
-			// courseOther_div.appendChild(courseOtherPeople_div);
-			/* 图片以外部分 -- 发布者 */
-			// var courseOtherPublisher_div = document.createElement('div');
-			// courseOtherPublisher_div.innerHTML = '<span>发布者：</span><span>'+ jsonObj.list[i].provider +'</span>';
-			// courseOther_div.appendChild(courseOtherPublisher_div);
-			/* 图片以外部分 -- 分类 */
-			// var courseOtherClassify_div = document.createElement('div');
-			// courseOtherClassify_div.innerHTML = '<span>分类：</span><span>'+ jsonObj.list[i].categoryName +'</span>';
-			// courseOther_div.appendChild(courseOtherClassify_div);
-			/* 将图片容器和图片以外部分追加到摘要部分中 */
-			// courseAbstract_div.appendChild(courseImg_div);		
-			// courseAbstract_div.appendChild(courseOther_div);				
-			/* 课程 -- 介绍 */
-			// var courseIntroduce_p = document.createElement('p');
-			// courseIntroduce_p.innerHTML = jsonObj.list[i].description;
-			/* 将摘要部分和课程介绍部分追加到课程详情中 */
-		// 	courseDetail_div.appendChild(courseAbstract_div);
-		// 	courseDetail_div.appendChild(courseIntroduce_p);
-		// 	course_li.appendChild(courseDetail_div);
-		// 	course_ul.appendChild(course_li);
-		// }
 		/* 对每一门课程绑定hover事件 */
 		// var course_li = course_ul.getElementsByTagName('li');
 		// for(i = 0;i < courseNum;i++){
 		// 	addEvent(course_li[i],'mouseenter',onmouseenter);
 		// 	addEvent(course_li[i],'mouseleave',onmouseleave);
 		// }
-		/* 事件函数 */
-		// function onmouseenter(ev){
-		// 	var event = ev || window.event;
-			/* 若追加过课程详细信息DOM节点，那么只需要将让其显示即可 */
-// 			event.target.lastChild.style.display = 'block';
-// 		}
-// 		function onmouseleave(ev){
-// 			var event = ev || window.event;
-// 			event.target.lastChild.style.display = 'none';			
-// 		}
-// 	}
-// })();
+})();
 
 /* 最热排行 */
 // (function(){
@@ -488,3 +381,116 @@ function autoPlay(){
 function removeAutoPlay(){
 	clearInterval(IntervalID);
 }
+
+/* 浏览器窗口变化触发的事件函数 */
+function onresize(){
+	checkWindow();
+}
+
+function checkWindow(){
+	if(window.innerWidth < 1205){
+		courseNum = 15;
+	}else{
+		courseNum = 20;
+	}
+	ajax('GET','http://study.163.com/webDev/couresByCategory.htm?pageNo=' + pageNum + '&psize=' + courseNum + '&type='+ type,callBack);
+}
+
+/* 回调函数 */
+function callBack(jsonObj){
+	/* 把从服务器取得的JSON数据变化为字符串 */
+	jsonObj = JSON.parse(jsonObj);
+	var course_ul = getElementByClassName('div','content').getElementsByTagName('ul')[0];
+	var course_li = course_ul.getElementsByTagName('li');
+	/* 删除前面所选页的节点 */
+	for(i = 0;i < 20;i++){
+		if(course_li.length != 0){
+			course_ul.removeChild(course_li[0]);
+		}else{
+			break;
+		}
+	}
+	/* 创建课程节点 */
+	for(i = 0;i < courseNum;i++){
+		var course_li = document.createElement('li');
+		/* 课程图片 */
+		var courseImage_div = document.createElement('div');
+		var courseImage_img = document.createElement('img');
+		courseImage_img.src = jsonObj.list[i].bigPhotoUrl;
+		courseImage_img.setAttribute('width','223px');
+		courseImage_img.setAttribute('height','124px');
+		courseImage_div.appendChild(courseImage_img);
+		/* 课程名 */
+		var courseTile_h3 = document.createElement('h3');
+		courseTile_h3.innerHTML = jsonObj.list[i].name;
+		/* 提供者 */
+		var courseintroduce_span = document.createElement('span');
+		courseintroduce_span.innerHTML = jsonObj.list[i].provider;
+		/* 人数 */
+		var coursepeople_div = document.createElement('div');
+		coursepeople_div.innerHTML = "<img src='static/image/people-count.png'/><span>"+ jsonObj.list[i].learnerCount +"</span>";
+		/* 价格 */
+		var coursePrice_span = document.createElement('span');
+		coursePrice_span.innerHTML = '￥' + jsonObj.list[i].price;
+		/* 将节点追加到<li>中 */
+		course_li.appendChild(courseImage_div);
+		course_li.appendChild(courseTile_h3);
+		course_li.appendChild(courseintroduce_span);
+		course_li.appendChild(coursepeople_div);
+		course_li.appendChild(coursePrice_span);
+		/* 追加课程详细信息DOM节点 */
+		var courseDetail_div = document.createElement('div');
+		courseDetail_div.className = 'courseDetail';
+		/* 课程 -- 摘要 */
+		var courseAbstract_div = document.createElement('div');
+		courseAbstract_div.className = 'courseAbstract';
+		/* 摘要 -- 图片容器 */
+		var courseImg_div = document.createElement('div');
+		/* 图片容器 -- 图片 */
+		var courseImg_img = document.createElement('img');
+		courseImg_img.src = jsonObj.list[i].bigPhotoUrl;
+		courseImg_img.setAttribute('width','223px');
+		courseImg_img.setAttribute('height','124px');	
+		courseImg_div.appendChild(courseImg_img);	
+		/* 摘要容器 -- 图片以外部分 */
+		var courseOther_div = document.createElement('div');
+		/* 图片以外部分 -- 标题 */
+		var courseOther_h3 = document.createElement('h3');
+		courseOther_h3.innerHTML = jsonObj.list[i].name;
+		courseOther_div.appendChild(courseOther_h3);
+		/* 图片以外部分 -- 人数 */
+		var courseOtherPeople_div = document.createElement('div');
+		courseOtherPeople_div.innerHTML = "<img src='static/image/people-count.png'/><span>"+ jsonObj.list[i].learnerCount +"</span><span>人在学</span>";
+		courseOther_div.appendChild(courseOtherPeople_div);
+		/* 图片以外部分 -- 发布者 */
+		var courseOtherPublisher_div = document.createElement('div');
+		courseOtherPublisher_div.innerHTML = '<span>发布者：</span><span>'+ jsonObj.list[i].provider +'</span>';
+		courseOther_div.appendChild(courseOtherPublisher_div);
+		/* 图片以外部分 -- 分类 */
+		var courseOtherClassify_div = document.createElement('div');
+		courseOtherClassify_div.innerHTML = '<span>分类：</span><span>'+ jsonObj.list[i].categoryName +'</span>';
+		courseOther_div.appendChild(courseOtherClassify_div);
+		/* 将图片容器和图片以外部分追加到摘要部分中 */
+		courseAbstract_div.appendChild(courseImg_div);		
+		courseAbstract_div.appendChild(courseOther_div);				
+		/* 课程 -- 介绍 */
+		var courseIntroduce_p = document.createElement('p');
+		courseIntroduce_p.innerHTML = jsonObj.list[i].description;
+		/* 将摘要部分和课程介绍部分追加到课程详情中 */
+		courseDetail_div.appendChild(courseAbstract_div);
+		courseDetail_div.appendChild(courseIntroduce_p);
+		course_li.appendChild(courseDetail_div);
+		course_ul.appendChild(course_li);
+	}
+}
+		/* 事件函数 */
+		// function onmouseenter(ev){
+		// 	var event = ev || window.event;
+			/* 若追加过课程详细信息DOM节点，那么只需要将让其显示即可 */
+	// 		event.target.lastChild.style.display = 'block';
+	// 	}
+	// 	function onmouseleave(ev){
+	// 		var event = ev || window.event;
+	// 		event.target.lastChild.style.display = 'none';			
+	// 	}
+	// }

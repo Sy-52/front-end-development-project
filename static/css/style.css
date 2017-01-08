@@ -1,5 +1,5 @@
 /*消除默认样式和浏览器差异，设置部分标签的初始样式 */
-body {position: relative;margin: 0;width: 1616px;height:990px;font-family: "Microsoft Yahei";color: #333333;}
+body {position: relative;margin: 0;width: 1616px;font-family: "Microsoft Yahei";color: #333333;}
 ol,ul {list-style-type: none;margin: 0;padding-left: 0;}
 h3,h5 {margin: 0;}
 p {margin: 0;}
@@ -52,7 +52,7 @@ p {margin: 0;}
 .m-slide .slide li {float: left;width: 10px;height: 10px;border-radius: 50%;background-color: #ffffff;margin-left: 10px;}
 .m-slide .slide .selected {background-color: #333333;}
 /* 头部 - 三大课程介绍、导航 */
-/*.g-head .m-nav {height: 295px;padding: 61px 218px 0 212px;-moz-box-sizing: border-box;box-sizing: border-box;}
+.g-head .m-nav {height: 295px;padding: 61px 218px 0 212px;box-sizing: border-box;}
 .g-head .m-nav li {float: left;}
 .g-head .m-nav li div {float: left;}
 .g-head .m-nav li div:nth-child(2) {width: 240px;margin-left: 20px;}
@@ -61,21 +61,21 @@ p {margin: 0;}
 .g-head .m-nav li div:nth-child(2) a {font-size: 11px;text-decoration: none;color: #39a030;}
 .g-head .m-nav li div:nth-child(2) a:hover {text-decoration: underline;}
 .g-head .m-nav li:nth-child(2) {margin-left: 84px;margin-right: 80px;}
-.g-head .m-nav li:after {content: '';display: block;clear: left;}*/
+.g-head .m-nav li:after {content: '';display: block;clear: left;}
 /* 头部 - 工作、生活环境 */
-/*.g-head .m-list {height: 222px;margin-left: -4px;background-color: #f8f8f8;}
+.g-head .m-list {height: 222px;margin-left: -4px;background-color: #f8f8f8;}
 .g-head .m-list li {float: left;}
-.g-head .m-list li img {width: 320px;height: 220px;margin-left: 4px;}*/
+.g-head .m-list li img {width: 320px;height: 220px;margin-left: 4px;}
 /* 布局 - 内容部分 */
-/*.g-body {padding-left: 203px;padding-top: 81px;height: 1551px;background-color: #f8f8f8;}
-*//* 内容 - tab、课程、页码 */
-/*.m-content {position: relative;float: left;width: 960px;height: 1300px;}
-*//* 内容 - tab */
-/*.m-content .tab div {float: left;width: 200px;line-height: 50px;font-size: 19px;text-align: center;background-color: #ffffff;}
+.g-body {padding-left: 203px;padding-top: 81px;height: 1551px;background-color: #f8f8f8;}
+/* 内容 - tab、课程、页码 */
+.m-content {position:relative;float:left;width:960px;height:1300px;}
+/* 内容 - tab */
+.m-content .tab div {float: left;width: 200px;line-height: 50px;font-size: 19px;text-align: center;background-color: #ffffff;}
 .m-content .tab .selected {background-color: #39a030;color: #ffffff;}
-.m-content .tab:after {content: '';display: block;clear: left;}*/
+.m-content .tab:after {content: '';display: block;clear: left;}
 /* 内容 - 课程 */
-/*.m-content .content {height: 1220px;margin-top: 30px;}
+.m-content .content {height: 1220px;margin-top: 30px;}
 .m-content .content ul {margin-left: -20px;}
 .m-content .content ul li {position: relative;float: left;width: 225px;height: 228px;margin-left: 20px;margin-bottom: 20px;background-color: #ffffff;box-shadow: 0 1px 2px #f1f1f1;}
 .m-content .content ul li div:first-child {margin-top: 1px;margin-left: 1px;}
@@ -92,18 +92,18 @@ p {margin: 0;}
 .m-content .content ul li .courseDetail div:last-child div:first-child {font-size: 11px;color: #666;}
 .m-content .content ul li .courseDetail div:last-child div:nth-child(3) {margin-top: 14px;margin-bottom: 8px;}
 .m-content .content ul li p {padding: 13px 11px;background-color: #f8f8f8;font-size: 13px;line-height: 24px;min-height: 55px;color: #959595;}
-.m-content .content ul:after {content: '';display: block;clear: left;}*/
+.m-content .content ul:after {content: '';display: block;clear: left;}
 /* 内容 - 页码 */
-/*.m-content .nav {position: absolute;bottom: -50px;right: 0;}
+.m-content .nav {position: absolute;bottom: -50px;right: 0;}
 .m-content .nav li {float: left;width: 20px;height: 20px;margin-left: 10px;text-align: center;}
 .m-content .nav .selected {background-color: #9dd8b1;color: #ffffff;}
 .m-content .nav li:hover {background-color: #9dd8b1;color: #ffffff;}
 .m-content .nav li:first-child {width: 30px;background: url('../image/Left Arrow.png?__sprite') no-repeat;}
 .m-content .nav li:last-child {width: 30px;background: url('../image/Right Arrow.png?__sprite') no-repeat;}
-.m-content .m-nav:after {content: '';display: block;clear: left;}*/
+.m-content .m-nav:after {content: '';display: block;clear: left;}
 /* 内容 - 热门课程部分 */
-/*.m-side {float: left;width: 226px;margin-left: 23px;}
-*//* 内容 - 视频 */
+.m-side {float: left;width: 226px;margin-left: 23px;}
+/* 内容 - 视频 
 /*.m-side .side {height: 230px;}
 .m-side .side .title {width: 224px;margin: 0px 2px 2px 2px;line-height: 55px;font-size: 15px;color: #333333;background-color: #ffffff;}
 .m-side .side .title span {margin-left: 20px;}

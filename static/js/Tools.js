@@ -59,7 +59,7 @@ function ajax(method,url,fn){
 	xhr.send(null);
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200){
-			fn(xhr.responseText);
+			console.log(xhr.responseText);
 		}
 	}
 }
