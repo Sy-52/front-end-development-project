@@ -94,15 +94,15 @@ p {margin: 0;}
 .m-content .content ul li p {padding: 13px 11px;background-color: #f8f8f8;font-size: 13px;line-height: 24px;min-height: 55px;color: #959595;}
 .m-content .content ul:after {content: '';display: block;clear: left;}
 /* 内容 - 页码 */
-.m-content .nav {position: absolute;bottom: -50px;right: 0;}
+/*.m-content .nav {position: absolute;bottom: -50px;right: 0;}
 .m-content .nav li {float: left;width: 20px;height: 20px;margin-left: 10px;text-align: center;}
 .m-content .nav .selected {background-color: #9dd8b1;color: #ffffff;}
 .m-content .nav li:hover {background-color: #9dd8b1;color: #ffffff;}
 .m-content .nav li:first-child {width: 30px;background: url('../image/Left Arrow.png?__sprite') no-repeat;}
 .m-content .nav li:last-child {width: 30px;background: url('../image/Right Arrow.png?__sprite') no-repeat;}
-.m-content .m-nav:after {content: '';display: block;clear: left;}
+.m-content .m-nav:after {content: '';display: block;clear: left;}*/
 /* 内容 - 热门课程部分 */
-.m-side {float: left;width: 226px;margin-left: 23px;}
+/*.m-side {float: left;width: 226px;margin-left: 23px;}*/
 /* 内容 - 视频 
 /*.m-side .side {height: 230px;}
 .m-side .side .title {width: 224px;margin: 0px 2px 2px 2px;line-height: 55px;font-size: 15px;color: #333333;background-color: #ffffff;}

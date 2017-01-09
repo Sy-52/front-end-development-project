@@ -99,9 +99,32 @@
 			<div class="selected">产品设计</div>
 			<div>编程语言</div>
 		</div>
+		<!-- 模板 -->
 		<div class="content">
 			<ul>
-				
+				<script type="text/template" id="tp">
+					<% _.each(obj,function(element,index,list){ %>	
+						<li>
+							<div><img src=<%=element.bigPhotoUrl%> width="223" height="124" alt="课程图片"/></div>
+							<h3><%=element.name%></h3>
+							<span><%=element.provider%></span>
+							<div><img src='static/image/people-count.png'/><span><%=element.learnerCount%></span><span>人在学</span></div>
+							<span>'￥'  <%=element.price%></span>
+							<div class="courseDetail">
+								<div class="courseAbstract">
+									<div><img src=<%=element.bigPhotoUrl%> width="223" height="124" alt="课程图片"/></div>
+									<div>
+										<h3><%=element.name%></h3>
+										<div><img src='static/image/people-count.png'/><span><%=element.learnerCount%></span><span>人在学</span></div>
+										<div><span>发布者：</span><span><%=element.provider%></span></div>
+										<div><span>分类：</span><span><%=element.categoryName%></span></div>
+									</div>
+								</div>
+								<p><%=element.description%></p>
+							</div>
+						</li>			
+					<% }) %>
+				</script>
 			</ul>
 		</div>
 		<ol class="nav">
@@ -176,6 +199,7 @@
 		<div class="submit">登录</div>
 	</form>
 </div>
+<script src="static/js/underscore.js"></script>
 <script src="static/js/Tools.js"></script>
 <script src="static/js/MD5.js"></script>
 <script src="static/js/Main.js"></script>
