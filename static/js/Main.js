@@ -15,13 +15,16 @@ var banner_li = banner_ul.getElementsByTagName('li');
 var slide_ul = document.getElementsByTagName('ul')[1];
 var slide_li = slide_ul.getElementsByTagName('li');
 var IntervalID;
-/* 课程显示模块 */
+/* 全局变量 -- 课程显示模块 */
 var tab_div = getElementByClassName('div','tab');
 var tabChild_div = tab_div.getElementsByTagName('div');
-var pageNumber_li = document.getElementsByTagName('ol')[0].getElementsByTagName('li');
+var pageNumber_ol = document.getElementsByTagName('ol')[0];
 var type = 10;
 var courseNum = 20;
 var pageNum = 1;
+var tmpBackups;
+var course_ul = getElementByClassName('div','content').getElementsByTagName('ul')[0];
+var course_li = course_ul.getElementsByTagName('li');
 
 /* 顶部通知条 */
 (function(){
@@ -74,66 +77,15 @@ var pageNum = 1;
 
 /* 课程 */
 (function(){
+	/* 请求服务器数据前先保存模板 */
+	tmpBackups = course_ul.innerHTML;
 	/* 检测浏览器窗口大小 */
 	checkWindow();
 	addEvent(window,'resize',onresize);	
 	/* 给"产品设计"与"编程语言"按钮绑定点击事件 */
-	// for(i = 0;i < tabChild_div.length;i++){
-	// 	addEvent(tabChild_div[i],'click',clickChange);
-	// }
-	/* 事件 */
-	// function clickChange(){
-	// 	var currentPage;
-		/* 变换页码前先清除之前选择的页码 */
-	// 	for(i = 0;i < tabChild_div.length;i++){
-	// 		if(tabChild_div[i].className == 'selected'){
-	// 			tabChild_div[i].className = '';
-	// 		}
-	// 	}
-	// 	this.className = 'selected';
-	// 	for(i = 0;i < tabChild_div.length;i++){
-	// 		if(tabChild_div[i].className == 'selected'){
-	// 			  判断Tab项的内容，返回对应类型课程  
-	// 			if(this.innerHTML == '编程语言'){
-	// 				type = 20;
-	// 			}else{
-	// 				type = 10;
-	// 			}
-	// 		}
-	// 	}
-	// 	ajax('GET','http://study.163.com/webDev/couresByCategory.htm?pageNo=' + pageNumber_li[pageNum].innerHTML + '&psize=' + courseNum + '&type='+ type,callBack);
-	// }
-
-	/* 给页码绑定点击事件 */
-	// for(i = 1;i < pageNumber_li.length - 1;i++){
-	// 	addEvent(pageNumber_li[i],'click',selectedEvent);
-	// }
-	/* 事件 */
-	// function selectedEvent(){
-	// 	var that = this;
-		/* 获取当前页码 */
-	// 	function getCourseData(self){
-	// 		for(i = 0;i < pageNumber_li.length;i++){
-	// 			if(pageNumber_li[i].className == 'selected'){
-	// 				pageNumber_li[i].className = '';
-	// 			}
-	// 		}
-	// 		self.className = 'selected';
-	// 		for(i = 0;i < pageNumber_li.length;i++){
-	// 			if(pageNumber_li[i].className == 'selected'){
-	// 				pageNum = i;
-	// 				ajax('GET','http://study.163.com/webDev/couresByCategory.htm?pageNo=' + pageNumber_li[i].innerHTML + '&psize=' + courseNum + '&type='+ type,callBack);
-	// 			}
-	// 		}
-	// 	}
-	// 	getCourseData(that);
-	// }
-		/* 对每一门课程绑定hover事件 */
-		// var course_li = course_ul.getElementsByTagName('li');
-		// for(i = 0;i < courseNum;i++){
-		// 	addEvent(course_li[i],'mouseenter',onmouseenter);
-		// 	addEvent(course_li[i],'mouseleave',onmouseleave);
-		// }
+	for(i = 0;i < tabChild_div.length;i++){
+		addEvent(tabChild_div[i],'click',clickTabChange);
+	}
 })();
 
 /* 最热排行 */
@@ -200,7 +152,6 @@ var pageNum = 1;
 	// var video_video = document.getElementsByTagName('video')[0];
 	// addEvent(video_div,'click',onclick);
 	// addEvent(x_div,'click',onclick);
-	/* 事件委托技术优化性能 */
 // 	function onclick(ev){
 // 		var event = ev || window.event;
 // 		switch(event.currentTarget.className){
@@ -396,24 +347,47 @@ function checkWindow(){
 	ajax('GET','http://study.163.com/webDev/couresByCategory.htm?pageNo=' + pageNum + '&psize=' + courseNum + '&type='+ type,callBack);
 }
 
+/* 点击Tab切换函数 */
+function clickTabChange(){
+	var currentPage;
+	/* Tab切换前先清除前一个Tab上的class名 */
+	for(i = 0;i < tabChild_div.length;i++){
+		if(tabChild_div[i].className == 'selected'){
+			tabChild_div[i].className = '';
+		}
+	}
+	this.className = 'selected';
+	/* 根据类型请求课程数据 */
+	for(i = 0;i < tabChild_div.length;i++){
+		if(tabChild_div[i].className == 'selected'){
+			if(this.innerHTML == '编程语言'){
+				type = 20;
+			}else{
+				type = 10;
+			}
+		}
+	}
+	course_ul.innerHTML = tmpBackups;
+	ajax('GET','http://study.163.com/webDev/couresByCategory.htm?pageNo=' + pageNum + '&psize=' + courseNum + '&type='+ type,callBack);
+}
+
 /* 回调函数 */
 function callBack(jsonObj){
-	var course_ul = getElementByClassName('div','content').getElementsByTagName('ul')[0];
-	var course_li = course_ul.getElementsByTagName('li');
 	var data = [];
 	var i;
+	var totlePageCount = '';
 	/* 把从服务器取得的JSON数据变化为字符串 */
 	responseObj = JSON.parse(jsonObj);
 	/* 删除前面所选页的节点 */
-	for(i = 0;i < 20;i++){
+	for(i = 0;i < responseObj.list.length;i++){
 		if(course_li.length != 0){
 			course_ul.removeChild(course_li[0]);
 		}else{
 			break;
 		}
 	}
+	course_ul.innerHTML = tmpBackups;
 	/* 利用underscore.js的_template函数创建课程节点 */
-	console.log(responseObj);
 	for(i = 0 ; i< responseObj.list.length ; i++){
 		data[i] = new Object();
 		data[i].name = responseObj.list[i].name;
@@ -428,15 +402,68 @@ function callBack(jsonObj){
 	var compiled = _.template(document.getElementById('tp').innerHTML);
 	var str = compiled(data);
 	course_ul.innerHTML = str;
+	/* 给每门课程绑定事件，鼠标悬停到课程上方时触发 */
+	for(i = 0;i < responseObj.list.length;i++){
+		addEvent(course_li[i],'mouseenter',mouseEnterDisplay);
+		addEvent(course_li[i],'mouseleave',mouseLeaveDisappear);
+	}
+	/* 检测服务器中能显示的页码数量并动态生成页码 */
+	for(i = 0;i < responseObj.pagination.totlePageCount + 2;i++){
+		switch(i){
+			case 0:totlePageCount = totlePageCount + '<li></li>';break;
+			case responseObj.pagination.totlePageCount + 1:totlePageCount = totlePageCount + '<li></li>';break;
+			default:totlePageCount = totlePageCount + '<li>' + i + '</li>';
+		}
+	}	
+	pageNumber_ol.innerHTML = totlePageCount;
+	pageNumber_ol.getElementsByTagName('li')[pageNum].className = 'selected';
+
+	/* 给页码绑定点击事件 */
+	for(i = 1;i < pageNumber_ol.getElementsByTagName('li').length - 1;i++){
+		addEvent(pageNumber_ol.getElementsByTagName('li')[i],'click',selectPageNumChange);
+	}
 }
 
-/* 事件函数 */
-function onmouseenter(ev){
+/* 课程详情显示函数 */
+function mouseEnterDisplay(ev){
 	var event = ev || window.event;
-	/* 若追加过课程详细信息DOM节点，那么只需要将让其显示即可 */
-	event.target.lastChild.style.display = 'block';
+	for(var i = 0;i < ev.target.childNodes.length;i++){
+		if(ev.target.childNodes[i].className == 'courseDetail disappear'){
+			ev.target.childNodes[i].className = 'courseDetail';
+		}
+	}
 }
-function onmouseleave(ev){
+
+/* 课程详情消失函数 */
+function mouseLeaveDisappear(ev){
 	var event = ev || window.event;
-	event.target.lastChild.style.display = 'none';			
+	for(var i = 0;i < ev.target.childNodes.length;i++){
+		if(ev.target.childNodes[i].className == 'courseDetail'){
+			ev.target.childNodes[i].className = 'courseDetail disappear';
+		}
+	}		
+}
+
+/* 点击页码触发事件 */
+function selectPageNumChange(){
+	var that = this;
+	getCourseData(that);
+}
+
+/* 点击页码获取对应页课程数据 */
+function getCourseData(self){
+	var pageNumber_li = pageNumber_ol.getElementsByTagName('li');
+	for(i = 0;i < pageNumber_li.length;i++){
+		if(pageNumber_li[i].className == 'selected'){
+			pageNumber_li[i].className = '';
+		}
+	}
+	self.className = 'selected';
+	for(i = 0;i < pageNumber_li.length;i++){
+		if(pageNumber_li[i].className == 'selected'){
+			pageNum = pageNumber_li[i].innerHTML;
+			console.log(pageNum);
+			ajax('GET','http://study.163.com/webDev/couresByCategory.htm?pageNo=' + pageNum + '&psize=' + courseNum + '&type='+ type,callBack);		
+		}
+	}
 }

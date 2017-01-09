@@ -83,7 +83,7 @@ p {margin: 0;}
 .m-content .content ul li span {display: inline-block;margin-left: 4px;margin-top: 5px;font-size: 12px;color: #999;}
 .m-content .content ul li div:nth-child(4) div {display: inline-block;margin-top: 5px;margin-left: 4px;border: 1px solid #ddd;border-radius: 2px;padding-left: 3px;padding-right: 3px;}
 .m-content .content ul li span:nth-child(5) {font-weight: bold;color: #ff3f00;}
-.m-content .content ul li .courseDetail {display: none;position: absolute;top: -10px;left: -10px;width: 480px;border: 1px solid #d0cfd0;z-index: 1;}
+.m-content .content ul li .courseDetail {position: absolute;top: -10px;left: -10px;width: 480px;border: 1px solid #d0cfd0;z-index: 1;}
 .m-content .content ul li .courseDetail .courseAbstract {height: 155px;background-color: #fff;}
 .m-content .content ul li .courseDetail .courseAbstract div:first-child {float: left;width: 250px;height: 100%;}
 .m-content .content ul li .courseDetail .courseAbstract div:first-child img {margin-left: 8px;margin-top: 8px;}
@@ -94,13 +94,13 @@ p {margin: 0;}
 .m-content .content ul li p {padding: 13px 11px;background-color: #f8f8f8;font-size: 13px;line-height: 24px;min-height: 55px;color: #959595;}
 .m-content .content ul:after {content: '';display: block;clear: left;}
 /* 内容 - 页码 */
-/*.m-content .nav {position: absolute;bottom: -50px;right: 0;}
+.m-content .nav {position: absolute;bottom: -50px;right: 0;}
 .m-content .nav li {float: left;width: 20px;height: 20px;margin-left: 10px;text-align: center;}
 .m-content .nav .selected {background-color: #9dd8b1;color: #ffffff;}
 .m-content .nav li:hover {background-color: #9dd8b1;color: #ffffff;}
 .m-content .nav li:first-child {width: 30px;background: url('../image/Left Arrow.png?__sprite') no-repeat;}
 .m-content .nav li:last-child {width: 30px;background: url('../image/Right Arrow.png?__sprite') no-repeat;}
-.m-content .m-nav:after {content: '';display: block;clear: left;}*/
+.m-content .m-nav:after {content: '';display: block;clear: left;}
 /* 内容 - 热门课程部分 */
 /*.m-side {float: left;width: 226px;margin-left: 23px;}*/
 /* 内容 - 视频 
