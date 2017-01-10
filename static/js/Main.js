@@ -1,22 +1,22 @@
 (function(){
-	/* 全局变量 -- 消息通知栏 */
+	/* 消息提示组件变量 */
 	var tip_div = getElementByClassName('div','m-tip');
-	/* 全局变量 -- 关注按钮 */
+	/* 关注按钮两个组件下的变量 */
 	var focus_div = getElementByClassName('div','focus');
 	var attention_div = getElementByClassName('div','attention disappear');
-	/* 全局变量 -- 登录窗口 */
+	/* 登录窗口模块的一系列变量 */
 	var mask1_div = getElementByClassName('div','g-mask1 disappear');
 	var userName = document.getElementsByTagName('input')[0];
 	var password = document.getElementsByTagName('input')[1];
 	var mask_label = document.getElementsByTagName('label')[0];
 	var submit_div = getElementByClassName('div','submit');
-	/* 全局变量 -- 轮播图 */
+	/* 轮播图组件的一系列变量 */
 	var banner_ul = document.getElementsByTagName('ul')[0];
 	var banner_li = banner_ul.getElementsByTagName('li');
 	var slide_ul = document.getElementsByTagName('ul')[1];
 	var slide_li = slide_ul.getElementsByTagName('li');
 	var IntervalID;
-	/* 全局变量 -- 课程显示 */
+	/* 内容模块中Tab、页码、课程等系列变量 */
 	var tab_div = getElementByClassName('div','tab');
 	var tabChild_div = tab_div.getElementsByTagName('div');
 	var pageNumber_ol = document.getElementsByTagName('ol')[0];
@@ -26,89 +26,75 @@
 	var tpBackups,tp1Backups;
 	var course_ul = getElementByClassName('div','content').getElementsByTagName('ul')[0];
 	var course_li = course_ul.getElementsByTagName('li');
-	/* 全局变量 -- 机构介绍 */
+	/* 机构介绍变量 */
 	var video_video = document.getElementsByTagName('video')[0];
-	/* 全局变量 -- 热门课程滚动 */
+	/* 热门课程滚动模块的系列变量 */
 	var hotCourse_ul = getElementByClassName('ul','list');
 	var hotCourse_li = hotCourse_ul.getElementsByTagName('li');
 	var current = 11;
 
-	/* 顶部通知条 */
+	/* 页面载入时操作 */
 	(function(){
-		/* 没想到getElementByClassName与getElementsByTagName居然可以连用 */
+		/* 请求服务器数据前先保存模板 */
+		tpBackups = document.getElementById('tp').innerHTML;
+		tp1Backups = document.getElementById('tp1').innerHTML;
+
+		/* 消息提示组件 */
 		var button_div = tip_div.getElementsByTagName('div')[0];
-		/* 检测cookie是否设置 */
+		/* 载入页面时，检测"消息提示"是否已阅 */
 		if(/read=true/g.test(document.cookie)){
 			tip_div.className = 'm-tip disappear';
 		}
-		/* 若cookie未设置绑定点击事件 */
+		/* 若"消息提示"未阅读则给"不再提醒"按钮绑定点击事件 */
 		if(!getCookie('read')){
 			addEvent(button_div,'click',disappear);
 		}
-	})();
+		
+		/* 给"关注"按钮绑定事件 */
+		addEvent(focus_div,'click',clickFocusButton);
 
-	/* 载入页面时loginSuc、followSuc同时存在才能显示"已关注"按钮 */
-	(function(){
+		/* 载入页面时，检测用户状态。用户登录并关注后才能显示"已关注"按钮 */
 		if(getCookie('loginSuc') && getCookie('followSuc')){
 			focus_div.className = 'focus disappear';
 			attention_div.className = 'attention';
 		}
-	})();
-
-	/* 点击关注 */
-	(function(){
-		addEvent(focus_div,'click',clickFocusButton);
-	})();
-
-	/* 登录弹窗 */
-	(function(){
+			
+		/* 给"登录窗口"的各部分绑定事件 */
 		addEvent(userName,'blur',inputBlur);
 		addEvent(userName,'focus',inputFocus);
 		addEvent(password,'blur',inputBlur);
 		addEvent(password,'focus',inputFocus);
 		addEvent(submit_div,'click',clickSubmitButton);
-	})();
-
-	/* 轮播图 */ 
-	(function(){
-		/* 给三个按钮分别绑定点击事件 */
+		
+		/* 给"轮播图"的各部分绑定上组件 */ 
 		for(var i = 0;i < 3;i++){
-			addEvent(slide_li[i],'click',slideClick);
+			addEvent(slide_li[i],'click',clickSlideButton);
 		}	
 		/* 绑定鼠标hover事件 */
 		addEvent(banner_ul,'mouseenter',removeAutoPlay);
 		addEvent(banner_ul,'mouseleave',autoPlay);
 		/* 轮播图自动播放 */
 		autoPlay();
-	})();
 
-	/* 课程 */
-	(function(){
-		/* 请求服务器数据前先保存模板 */
-		tpBackups = document.getElementById('tp').innerHTML;
-		/* 检测浏览器窗口大小 */
-		checkWindow();
-		addEvent(window,'resize',onresize);	
 		/* 给"产品设计"与"编程语言"按钮绑定点击事件 */
 		for(i = 0;i < tabChild_div.length;i++){
-			addEvent(tabChild_div[i],'click',clickTabChange);
+			addEvent(tabChild_div[i],'click',clickTabButton);
 		}
-	})();
 
-	/* 最热排行 */
-	(function(){
-		tp1Backups = document.getElementById('tp1').innerHTML;
-		/* 热门课程数据获取 */
-		ajax('GET','http://study.163.com/webDev/hotcouresByCategory.htm',callBack1);
-	})();
+		/* 根据浏览器窗口显示课程 */
+		checkWindow();
+		/* 给窗口绑定resize事件 */
+		addEvent(window,'resize',onresize);	
 
-	/* 机构介绍 -- 视频介绍 */
-	(function(){
-		/* 给图片绑定弹窗 */
+		/* "机构介绍"模块 */
 		var video_div = getElementByClassName('div','video').getElementsByTagName('div')[0];
 		var x_div = getElementByClassName('div','container').getElementsByTagName('div')[0];
-		addEvent(video_div,'click',clickIntro);
-		addEvent(x_div,'click',clickIntro);
+		/* 给点击图片弹窗、弹窗中的"关闭"图标绑定事件（采用了事件委托所以是同一事件） */
+		addEvent(video_div,'click',clickIntroduceImg);
+		addEvent(x_div,'click',clickIntroduceImg);
+
+		/* 热门课程数据获取 */
+		ajax('GET','http://study.163.com/webDev/hotcouresByCategory.htm',callBack1);
 	})();
 
 	/* 
@@ -210,7 +196,7 @@
 	}	
 
 	/* 点击轮播图按钮触发事件 */
-	function slideClick(){
+	function clickSlideButton(){
 		clear();
 		this.className = 'selected';
 		for(i = 0;i < 3;i++){
@@ -292,7 +278,7 @@
 	}
 
 	/* 点击Tab切换函数 */
-	function clickTabChange(){
+	function clickTabButton(){
 		var currentPage;
 		/* Tab切换前先清除前一个Tab上的class名 */
 		for(i = 0;i < tabChild_div.length;i++){
@@ -411,7 +397,7 @@
 	}
 
 	/* 点击结构介绍图片触发该事件 */
-	function clickIntro(ev){
+	function clickIntroduceImg(ev){
 		var event = ev || window.event;
 		switch(event.currentTarget.className){
 			case 'videoImg':
