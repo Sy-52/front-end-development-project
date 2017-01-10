@@ -102,35 +102,35 @@
 		<!-- 模板 -->
 		<div class="content">
 			<ul>
-				<script type="text/template" id="tp">
-					<% _.each(obj,function(element,index,list){ %>	
-						<li>
-							<div><img src=<%=element.bigPhotoUrl%> width="223" height="124" alt="课程图片"/></div>
-							<h3><%=element.name%></h3>
-							<span><%=element.provider%></span>
-							<div><img src='static/image/people-count.png'/><span><%=element.learnerCount%></span><span>人在学</span></div>
-							<span>￥  <%=element.price%></span>
-							<div class="courseDetail disappear">
-								<div class="courseAbstract">
-									<div><img src=<%=element.bigPhotoUrl%> width="223" height="124" alt="课程图片"/></div>
-									<div>
-										<h3><%=element.name%></h3>
-										<div><img src='static/image/people-count.png'/><span><%=element.learnerCount%></span><span>人在学</span></div>
-										<div><span>发布者：</span><span><%=element.provider%></span></div>
-										<div><span>分类：</span><span><%=element.categoryName%></span></div>
-									</div>
-								</div>
-								<p><%=element.description%></p>
+			<script type="text/template" id="tp">
+			<% _.each(obj,function(element,index,list){ %>	
+				<li>
+					<div><img src='<%=element.bigPhotoUrl%>' width="223" height="124" alt="课程图片"/></div>
+					<h3><%=element.name%></h3>
+					<span><%=element.provider%></span>
+					<div><img src='static/image/people-count.png'/><span><%=element.learnerCount%></span><span>人在学</span></div>
+					<span>￥  <%=element.price%></span>
+					<div class="courseDetail disappear">
+						<div class="courseAbstract">
+							<div><img src='<%=element.bigPhotoUrl%>' width="223" height="124" alt="课程图片"/></div>
+							<div>
+								<h3><%=element.name%></h3>
+								<div><img src='static/image/people-count.png'/><span><%=element.learnerCount%></span><span>人在学</span></div>
+								<div><span>发布者：</span><span><%=element.provider%></span></div>
+								<div><span>分类：</span><span><%=element.categoryName%></span></div>
 							</div>
-						</li>			
-					<% }) %>
-				</script>
+						</div>
+						<p><%=element.description%></p>
+					</div>
+				</li>			
+			<% }) %>
+			</script>
 			</ul>
 		</div>
 		<ol class="nav"></ol>
 	</div>
 	<div class="m-side">
-<!-- 		<div class="side">
+		<div class="side">
 			<div class="title"><span>机构介绍<span></div>
 			<div class="video">
 				<p>观看下面的视频来了解吧 :</p>
@@ -141,14 +141,26 @@
 			</div>
 		</div>
 		<ul class="list">
+		<!-- 模板 -->
+		<script type="text/template" id="tp1">
 			<li><span>最热排行</span></li>
-		</ul> -->
+			<% _.each(obj,function(element,index,list){ %>			
+			<li>
+				<div><img src='<%=element.smallPhotoUrl%>' width='50' height='50'/></div>
+				<div>
+					<h3><%=element.name%></h3>
+					<div><img src='static/image/people-count.png'/><span><%=element.learnerCount%></span></div>
+				</div>
+			</li>
+			<% }) %>
+		</script>
+		</ul>
 	</div>
 	<div class="clear"></div>
 </div>
 
 <!-- 布局 - 底部 -->
-<!-- <div class="g-foot">
+<div class="g-foot">
 	<ul class="m-copyright">
 		<li class="title">
 			<span>EDU</span><img src="static/image/l.png" alt="竖线符号 |" /><span>网易教育产品部</span>
@@ -174,10 +186,10 @@
 		<li><a href="#">意见反馈</a></li>
 	</ul>
 	<ul class="clear"></ul>
-</div> -->
+</div>
 
 <!-- 遮罩、视频 -->
-<!-- <div class="g-mask">
+<div class="g-mask disappear">
 	<div class="container">
 		<p>请观看下面的视频</p>
 		<video width="889px" height="567px" controls="control">
@@ -186,7 +198,7 @@
 		</video>
 		<div class="xImg"></div>
 	</div>
-</div> -->
+</div>
 
 <!-- 遮罩、登录框 -->
 <div class="g-mask1 disappear">
